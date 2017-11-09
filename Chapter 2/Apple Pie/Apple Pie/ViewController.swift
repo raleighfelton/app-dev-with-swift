@@ -15,16 +15,40 @@ class ViewController: UIViewController {
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet var letterButtons: [UIButton]!
     
+    var listOfWords = ["mango", "tango", "beer", "design", "swift" ]
+    let incorrectMovesAllowed = 7
+    var totalWins = 0
+    var totalLosses = 0
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        newRound()
+        
     }
+    
+    var currentGame: Game!
+    
+    func newRound() {
+        let newWord = listOfWords.removeLast()
+        currentGame = Game(word: newWord, incorrectMovesRemaining: incorrectMovesAllowed)
+        updateUI()
+    }
+    
+    func updateUI() {
+        scoreLabel.text = "Wins: \(totalWins), Losses: \(totalLosses)"
+        treeImageView.image = UIImage(named: "Tree \(currentGame.incorrectMovesRemaining)")
+    }
+    
+    
 
     @IBAction func buttonPressed(_ sender: UIButton) {
         sender.isEnabled = false
         
     }
+    
+    
     
     
     override func didReceiveMemoryWarning() {
